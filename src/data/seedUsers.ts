@@ -1,4 +1,4 @@
-import { User } from '../types'
+import type { User } from '../types'
 
 export const DEMO_CITIZEN_USER: User = {
   id: 'cit-001',

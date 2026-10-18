@@ -1,4 +1,4 @@
-import { CategoryMeta } from '../types'
+import type { CategoryMeta } from '../types'
 
 export const SERVICE_CATEGORIES: CategoryMeta[] = [
   {

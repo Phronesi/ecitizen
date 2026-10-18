@@ -1,4 +1,4 @@
-import { CountyInfo } from '../types'
+import type { CountyInfo } from '../types'
 
 export const KENYAN_COUNTIES: CountyInfo[] = [
   {

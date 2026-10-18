@@ -1,4 +1,4 @@
-import { ServiceRequest } from '../types'
+import type { ServiceRequest } from '../types'
 
 export const SEED_SERVICE_REQUESTS: ServiceRequest[] = [
   {
