@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import { ToastProvider, useToast } from './context/ToastContext'
 import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 import { AuthModal } from './components/AuthModal'
 import { CitizenDashboard } from './components/CitizenDashboard'
 import { AdminPortal } from './components/AdminPortal'
@@ -13,6 +15,7 @@ import { BarChart3, ListFilter } from 'lucide-react'
 
 function DashboardShell() {
   const { user, role, demoLogin } = useAuth()
+  const { showToast } = useToast()
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null)
@@ -38,13 +41,15 @@ function DashboardShell() {
     setSelectedRequest(request)
   }
 
-  const handleCreatedSuccess = () => {
+  const handleCreatedSuccess = (newReq: ServiceRequest) => {
     fetchRequests()
+    showToast(`Service Request ${newReq.trackingNumber} lodged successfully!`, 'success')
   }
 
   const handleUpdateRequest = (updated: ServiceRequest) => {
     setSelectedRequest(updated)
     setRequests((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
+    showToast(`Status updated to ${updated.status.replace('_', ' ')}.`, 'info')
   }
 
   const handleQuickStatusUpdate = async (id: string, status: RequestStatus, officer?: string) => {
@@ -60,13 +65,19 @@ function DashboardShell() {
     if (selectedRequest?.id === id) {
       setSelectedRequest(updated)
     }
+    showToast(`Ticket ${updated.trackingNumber} assigned to ${officer || 'Duty Officer'} (${status.replace('_', ' ')}).`, 'success')
+  }
+
+  const handleResetData = async () => {
+    await fetchRequests()
+    showToast('Demo data and pre-seeded service requests restored.', 'info')
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
       <Navbar
         onOpenAuth={() => setAuthModalOpen(true)}
-        onResetData={fetchRequests}
+        onResetData={handleResetData}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -96,7 +107,10 @@ function DashboardShell() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => demoLogin('citizen')}
+                  onClick={async () => {
+                    await demoLogin('citizen')
+                    showToast('Switched to Citizen Self-Service view.', 'info')
+                  }}
                   className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'citizen'
                       ? 'bg-emerald-700/80 border-emerald-500 text-white font-bold'
@@ -107,7 +121,10 @@ function DashboardShell() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => demoLogin('admin')}
+                  onClick={async () => {
+                    await demoLogin('admin')
+                    showToast('Switched to Admin Dispatch Desk.', 'info')
+                  }}
                   className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'admin'
                       ? 'bg-slate-800 border-slate-600 text-white font-bold'
@@ -178,6 +195,8 @@ function DashboardShell() {
         )}
       </main>
 
+      <Footer />
+
       <CreateRequestModal
         isOpen={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
@@ -202,7 +221,9 @@ function DashboardShell() {
 export default function App() {
   return (
     <AuthProvider>
-      <DashboardShell />
+      <ToastProvider>
+        <DashboardShell />
+      </ToastProvider>
     </AuthProvider>
   )
 }
