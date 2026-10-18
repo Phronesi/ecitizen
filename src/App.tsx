@@ -4,10 +4,12 @@ import { Navbar } from './components/Navbar'
 import { AuthModal } from './components/AuthModal'
 import { CitizenDashboard } from './components/CitizenDashboard'
 import { AdminPortal } from './components/AdminPortal'
+import { AnalyticsView } from './components/AnalyticsView'
 import { CreateRequestModal } from './components/CreateRequestModal'
 import { RequestDetailModal } from './components/RequestDetailModal'
 import { requestService } from './services/requestService'
 import type { ServiceRequest, RequestStatus } from './types'
+import { BarChart3, ListFilter } from 'lucide-react'
 
 function DashboardShell() {
   const { user, role, demoLogin } = useAuth()
@@ -16,6 +18,7 @@ function DashboardShell() {
   const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null)
   const [requests, setRequests] = useState<ServiceRequest[]>([])
   const [loading, setLoading] = useState(true)
+  const [viewTab, setViewTab] = useState<'tickets' | 'analytics'>('tickets')
 
   const fetchRequests = useCallback(async () => {
     setLoading(true)
@@ -67,7 +70,7 @@ function DashboardShell() {
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-gradient-to-r from-emerald-900 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden mb-8">
+        <div className="bg-gradient-to-r from-emerald-900 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden mb-6">
           <div className="relative z-10 max-w-3xl">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold mb-3">
               <span>Republic of Kenya • eCitizen Civic Gateway</span>
@@ -126,7 +129,39 @@ function DashboardShell() {
           </div>
         </div>
 
-        {role === 'admin' ? (
+        <div className="flex items-center justify-between border-b border-slate-200 mb-6">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setViewTab('tickets')}
+              className={`inline-flex items-center gap-1.5 py-2.5 px-4 text-xs font-bold border-b-2 transition-colors ${
+                viewTab === 'tickets'
+                  ? 'border-emerald-600 text-emerald-800'
+                  : 'border-transparent text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              <ListFilter className="w-4 h-4" />
+              <span>{role === 'admin' ? 'Dispatch Grid' : 'Service Requests'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewTab('analytics')}
+              className={`inline-flex items-center gap-1.5 py-2.5 px-4 text-xs font-bold border-b-2 transition-colors ${
+                viewTab === 'analytics'
+                  ? 'border-emerald-600 text-emerald-800'
+                  : 'border-transparent text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span>Civic Analytics & SLA Metrics</span>
+            </button>
+          </div>
+        </div>
+
+        {viewTab === 'analytics' ? (
+          <AnalyticsView requests={requests} />
+        ) : role === 'admin' ? (
           <AdminPortal
             requests={requests}
             loading={loading}
