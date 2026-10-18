@@ -3,10 +3,11 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { Navbar } from './components/Navbar'
 import { AuthModal } from './components/AuthModal'
 import { CitizenDashboard } from './components/CitizenDashboard'
+import { AdminPortal } from './components/AdminPortal'
 import { CreateRequestModal } from './components/CreateRequestModal'
 import { RequestDetailModal } from './components/RequestDetailModal'
 import { requestService } from './services/requestService'
-import type { ServiceRequest } from './types'
+import type { ServiceRequest, RequestStatus } from './types'
 
 function DashboardShell() {
   const { user, role, demoLogin } = useAuth()
@@ -43,6 +44,21 @@ function DashboardShell() {
     setRequests((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
   }
 
+  const handleQuickStatusUpdate = async (id: string, status: RequestStatus, officer?: string) => {
+    const updated = await requestService.updateRequestStatus({
+      id,
+      status,
+      notes: `Admin quick dispatch: Status changed to ${status.replace('_', ' ')}.`,
+      updatedBy: user?.name || 'Administrative Officer',
+      role: 'admin',
+      assignedOfficer: officer
+    })
+    setRequests((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
+    if (selectedRequest?.id === id) {
+      setSelectedRequest(updated)
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
       <Navbar
@@ -57,10 +73,12 @@ function DashboardShell() {
               <span>Republic of Kenya • eCitizen Civic Gateway</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">
-              HudumaTrack Public Service Request Desk
+              {role === 'admin' ? 'Administrative Operations & Dispatch Desk' : 'HudumaTrack Public Service Request Desk'}
             </h1>
             <p className="text-slate-300 text-sm leading-relaxed mb-6">
-              Track infrastructure issues, report utility faults, and monitor municipal service resolution across all 47 counties in real time.
+              {role === 'admin'
+                ? 'Manage service requests across all 47 devolved counties, assign public works field personnel, and oversee SLA compliance.'
+                : 'Track infrastructure issues, report utility faults, and monitor municipal service resolution across all 47 counties in real time.'}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -78,7 +96,7 @@ function DashboardShell() {
                   onClick={() => demoLogin('citizen')}
                   className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'citizen'
-                      ? 'bg-emerald-700/80 border-emerald-500 text-white'
+                      ? 'bg-emerald-700/80 border-emerald-500 text-white font-bold'
                       : 'bg-white/10 hover:bg-white/20 border-white/10 text-white'
                   }`}
                 >
@@ -89,7 +107,7 @@ function DashboardShell() {
                   onClick={() => demoLogin('admin')}
                   className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'admin'
-                      ? 'bg-slate-800 border-slate-600 text-white'
+                      ? 'bg-slate-800 border-slate-600 text-white font-bold'
                       : 'bg-white/10 hover:bg-white/20 border-white/10 text-white'
                   }`}
                 >
@@ -102,18 +120,27 @@ function DashboardShell() {
                 onClick={() => setAuthModalOpen(true)}
                 className="text-xs font-medium text-slate-300 hover:text-white underline ml-auto"
               >
-                {user ? `Signed in as ${user.name}` : 'Sign In'}
+                {user ? `Signed in as ${user.name} (${role})` : 'Sign In'}
               </button>
             </div>
           </div>
         </div>
 
-        <CitizenDashboard
-          requests={requests}
-          loading={loading}
-          onSelectRequest={handleSelectRequest}
-          onNewRequest={() => setCreateModalOpen(true)}
-        />
+        {role === 'admin' ? (
+          <AdminPortal
+            requests={requests}
+            loading={loading}
+            onSelectRequest={handleSelectRequest}
+            onQuickStatusUpdate={handleQuickStatusUpdate}
+          />
+        ) : (
+          <CitizenDashboard
+            requests={requests}
+            loading={loading}
+            onSelectRequest={handleSelectRequest}
+            onNewRequest={() => setCreateModalOpen(true)}
+          />
+        )}
       </main>
 
       <CreateRequestModal
