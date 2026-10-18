@@ -3,12 +3,14 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { Navbar } from './components/Navbar'
 import { AuthModal } from './components/AuthModal'
 import { CitizenDashboard } from './components/CitizenDashboard'
+import { CreateRequestModal } from './components/CreateRequestModal'
 import { requestService } from './services/requestService'
 import type { ServiceRequest } from './types'
 
 function DashboardShell() {
   const { user, role, demoLogin } = useAuth()
   const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [createModalOpen, setCreateModalOpen] = useState(false)
   const [requests, setRequests] = useState<ServiceRequest[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -30,8 +32,8 @@ function DashboardShell() {
     alert(`Selected Request: ${request.trackingNumber}\nTitle: ${request.title}\nStatus: ${request.status}`)
   }
 
-  const handleNewRequest = () => {
-    alert('Request Creation Wizard will launch in Phase 6.')
+  const handleCreatedSuccess = () => {
+    fetchRequests()
   }
 
   return (
@@ -57,8 +59,8 @@ function DashboardShell() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                onClick={handleNewRequest}
-                className="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all"
+                onClick={() => setCreateModalOpen(true)}
+                className="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all active:scale-98"
               >
                 + Submit Service Request
               </button>
@@ -103,9 +105,15 @@ function DashboardShell() {
           requests={requests}
           loading={loading}
           onSelectRequest={handleSelectRequest}
-          onNewRequest={handleNewRequest}
+          onNewRequest={() => setCreateModalOpen(true)}
         />
       </main>
+
+      <CreateRequestModal
+        isOpen={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSuccess={handleCreatedSuccess}
+      />
 
       <AuthModal
         isOpen={authModalOpen}
