@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar'
 import { AuthModal } from './components/AuthModal'
 import { CitizenDashboard } from './components/CitizenDashboard'
 import { CreateRequestModal } from './components/CreateRequestModal'
+import { RequestDetailModal } from './components/RequestDetailModal'
 import { requestService } from './services/requestService'
 import type { ServiceRequest } from './types'
 
@@ -11,6 +12,7 @@ function DashboardShell() {
   const { user, role, demoLogin } = useAuth()
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [createModalOpen, setCreateModalOpen] = useState(false)
+  const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null)
   const [requests, setRequests] = useState<ServiceRequest[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -29,11 +31,16 @@ function DashboardShell() {
   }, [fetchRequests])
 
   const handleSelectRequest = (request: ServiceRequest) => {
-    alert(`Selected Request: ${request.trackingNumber}\nTitle: ${request.title}\nStatus: ${request.status}`)
+    setSelectedRequest(request)
   }
 
   const handleCreatedSuccess = () => {
     fetchRequests()
+  }
+
+  const handleUpdateRequest = (updated: ServiceRequest) => {
+    setSelectedRequest(updated)
+    setRequests((prev) => prev.map((r) => (r.id === updated.id ? updated : r)))
   }
 
   return (
@@ -113,6 +120,13 @@ function DashboardShell() {
         isOpen={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSuccess={handleCreatedSuccess}
+      />
+
+      <RequestDetailModal
+        request={selectedRequest}
+        isOpen={!!selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        onUpdateRequest={handleUpdateRequest}
       />
 
       <AuthModal
