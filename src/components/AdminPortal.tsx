@@ -267,8 +267,12 @@ export function AdminPortal({
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="sm:hidden px-4 py-2 bg-slate-50 border-b border-slate-200 text-[10px] text-slate-500 flex items-center justify-between">
+          <span className="font-semibold text-slate-700">Dispatch Grid</span>
+          <span className="text-emerald-700 font-medium">Scroll table horizontally →</span>
+        </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+          <table className="w-full min-w-[850px] text-left text-xs border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px] font-bold tracking-wider">
                 <th className="py-3 px-4">Tracking #</th>

@@ -80,38 +80,38 @@ function DashboardShell() {
         onResetData={handleResetData}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-gradient-to-r from-emerald-900 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden mb-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="bg-gradient-to-r from-emerald-900 to-slate-900 rounded-xl sm:rounded-2xl p-5 sm:p-8 text-white shadow-md relative overflow-hidden mb-6">
           <div className="relative z-10 max-w-3xl">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold mb-3">
               <span>Republic of Kenya • eCitizen Civic Gateway</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight mb-2">
               {role === 'admin' ? 'Administrative Operations & Dispatch Desk' : 'HudumaTrack Public Service Request Desk'}
             </h1>
-            <p className="text-slate-300 text-sm leading-relaxed mb-6">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-5 sm:mb-6">
               {role === 'admin'
                 ? 'Manage service requests across all 47 devolved counties, assign public works field personnel, and oversee SLA compliance.'
                 : 'Track infrastructure issues, report utility faults, and monitor municipal service resolution across all 47 counties in real time.'}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={() => setCreateModalOpen(true)}
-                className="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all active:scale-98"
+                className="w-full sm:w-auto px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all active:scale-98"
               >
                 + Submit Service Request
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={async () => {
                     await demoLogin('citizen')
                     showToast('Switched to Citizen Self-Service view.', 'info')
                   }}
-                  className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
+                  className={`flex-1 sm:flex-initial px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'citizen'
                       ? 'bg-emerald-700/80 border-emerald-500 text-white font-bold'
                       : 'bg-white/10 hover:bg-white/20 border-white/10 text-white'
@@ -125,7 +125,7 @@ function DashboardShell() {
                     await demoLogin('admin')
                     showToast('Switched to Admin Dispatch Desk.', 'info')
                   }}
-                  className={`px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
+                  className={`flex-1 sm:flex-initial px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
                     role === 'admin'
                       ? 'bg-slate-800 border-slate-600 text-white font-bold'
                       : 'bg-white/10 hover:bg-white/20 border-white/10 text-white'
@@ -138,7 +138,7 @@ function DashboardShell() {
               <button
                 type="button"
                 onClick={() => setAuthModalOpen(true)}
-                className="text-xs font-medium text-slate-300 hover:text-white underline ml-auto"
+                className="text-xs font-medium text-slate-300 hover:text-white underline sm:ml-auto pt-1 sm:pt-0"
               >
                 {user ? `Signed in as ${user.name} (${role})` : 'Sign In'}
               </button>
@@ -146,7 +146,7 @@ function DashboardShell() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-b border-slate-200 mb-6">
+        <div className="flex items-center justify-between border-b border-slate-200 mb-6 overflow-x-auto whitespace-nowrap">
           <div className="flex gap-2">
             <button
               type="button"

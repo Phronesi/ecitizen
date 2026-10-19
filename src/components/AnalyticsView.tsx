@@ -174,16 +174,17 @@ export function AnalyticsView({ requests }: AnalyticsViewProps) {
             <span className="text-[11px] text-slate-400">Total volume</span>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-56 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={countyData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+              <BarChart data={countyData} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 11, fill: '#64748b' }}
-                  angle={-20}
+                  tick={{ fontSize: 10, fill: '#64748b' }}
+                  angle={-25}
                   textAnchor="end"
+                  height={45}
                 />
-                <YAxis tick={{ fontSize: 11, fill: '#64748b' }} allowDecimals={false} />
+                <YAxis tick={{ fontSize: 10, fill: '#64748b' }} allowDecimals={false} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: '#ffffff',

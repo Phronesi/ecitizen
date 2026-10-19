@@ -363,7 +363,7 @@ export function CreateRequestModal({
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Urgency / Priority Level
                 </label>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
                     { id: 'low', label: 'Low', color: 'border-slate-300' },
                     { id: 'medium', label: 'Medium', color: 'border-blue-400' },

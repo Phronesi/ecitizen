@@ -137,7 +137,7 @@ export function CitizenDashboard({
           <button
             type="button"
             onClick={onNewRequest}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-sm transition-all shrink-0 active:scale-98"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-sm transition-all shrink-0 active:scale-98 w-full md:w-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Submit New Request</span>
@@ -243,7 +243,7 @@ export function CitizenDashboard({
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <PriorityBadge priority={req.priority} />
                   <StatusBadge status={req.status} />
                   <SlaCountdown deadline={req.slaDeadline} status={req.status} />

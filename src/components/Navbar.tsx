@@ -35,62 +35,65 @@ export function Navbar({ onOpenAuth, onResetData }: NavbarProps) {
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
       <div className="flag-ribbon w-full" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          <div className="flex items-center gap-2 sm:gap-3">
             <img
               src="/ecitizen-logo.jpg"
               alt="eCitizen Kenya"
-              className="h-9 w-auto object-contain"
+              className="h-7 sm:h-9 w-auto object-contain"
             />
-            <div className="h-6 w-px bg-slate-200" />
+            <div className="h-5 sm:h-6 w-px bg-slate-200" />
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-base font-bold text-slate-900 tracking-tight">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-sm sm:text-base font-bold text-slate-900 tracking-tight leading-none">
                   HudumaTrack
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider px-1 sm:px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
                   eCitizen
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 hidden sm:block">
+              <p className="text-[10px] sm:text-[11px] text-slate-500 hidden md:block">
                 Republic of Kenya Public Service Desk
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <button
               type="button"
               onClick={handleResetData}
               disabled={resetting}
               title="Reset Demo Data"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1 px-2 py-1.5 sm:px-2.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${resetting ? 'animate-spin' : ''}`} />
-              <span className="hidden md:inline">Reset Demo Data</span>
+              <span className="hidden md:inline">Reset Demo</span>
             </button>
 
             {user ? (
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <button
                   type="button"
                   onClick={handleToggleRole}
                   title={`Switch to ${role === 'admin' ? 'Citizen' : 'Admin'} mode`}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1 px-2 py-1.5 sm:px-2.5 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors"
                 >
                   <ArrowRightLeft className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">
                     Switch to {role === 'admin' ? 'Citizen' : 'Admin'}
                   </span>
+                  <span className="sm:hidden text-[10px]">
+                    {role === 'admin' ? 'Citizen' : 'Admin'}
+                  </span>
                 </button>
 
-                <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 border border-slate-200">
+                <div className="flex items-center gap-1.5 pl-1.5 sm:pl-2 border-l border-slate-200">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 border border-slate-200 shrink-0">
                     {role === 'admin' ? (
-                      <Shield className="w-4 h-4 text-emerald-700" />
+                      <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-700" />
                     ) : (
-                      <UserIcon className="w-4 h-4 text-slate-600" />
+                      <UserIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-600" />
                     )}
                   </div>
                   <div className="hidden lg:block text-left">
@@ -109,7 +112,7 @@ export function Navbar({ onOpenAuth, onResetData }: NavbarProps) {
                   title="Sign out"
                   className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
               </div>
             ) : (

@@ -219,7 +219,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
                     National ID Number
@@ -262,7 +262,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
                     County

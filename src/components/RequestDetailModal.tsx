@@ -99,8 +99,8 @@ export function RequestDetailModal({
               </button>
 
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-black text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <span className="font-mono text-xs sm:text-sm font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     {request.trackingNumber}
                   </span>
                   <button
@@ -118,7 +118,7 @@ export function RequestDetailModal({
                   <PriorityBadge priority={request.priority} />
                   <StatusBadge status={request.status} />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold text-slate-900 mt-1">
+                <h2 className="text-sm sm:text-lg font-bold text-slate-900 mt-1">
                   {request.title}
                 </h2>
               </div>
@@ -130,7 +130,7 @@ export function RequestDetailModal({
               <button
                 type="button"
                 onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Print Ticket</span>
@@ -146,7 +146,7 @@ export function RequestDetailModal({
             </div>
           </div>
 
-          <div className="flex border-b border-slate-200 mt-4 -mb-4 sm:-mb-6">
+          <div className="flex border-b border-slate-200 mt-4 -mb-4 sm:-mb-6 overflow-x-auto whitespace-nowrap">
             <button
               type="button"
               onClick={() => setActiveTab('timeline')}
